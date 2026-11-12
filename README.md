@@ -19,14 +19,20 @@ node server.mjs   # http://localhost:5210
 Без `.env` заявки печатаются в консоль.
 
 ## Telegram-бот
-1. @BotFather → /newbot → токен.
-2. Создать группу для заявок, добавить туда бота, написать в группу любое сообщение.
-3. Открыть `https://api.telegram.org/bot<ТОКЕН>/getUpdates` → взять `chat.id` (начинается с `-100…`).
-4. Прописать `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` (см. `.env.example`).
+1. В Telegram открыть @BotFather → `/newbot` → придумать имя и username (должен заканчиваться на `bot`). BotFather пришлёт **токен** вида `123456789:AA…` — это пароль бота, никому его не пересылайте и не коммитьте.
+2. Создать группу «Заявки VELA», добавить туда бота и администраторов студии.
+3. Написать в группе `/start@username_бота` (обычные сообщения бот в группе не видит).
+4. Открыть в браузере `https://api.telegram.org/bot<ТОКЕН>/getUpdates` и найти `"chat":{"id":-100…` — это **ID чата** (с минусом). Если там пусто (`"result":[]`) — повторить шаг 3 и обновить страницу.
+
+Токен и ID задаются переменными окружения `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` (несколько чатов — через запятую). В коде их нет.
+
+Проверить локально: создать файл `.env` по образцу `.env.example`, запустить `node server.mjs`, открыть коробку и отправить форму — заявка придёт в группу.
 
 ## Публикация (Vercel, бесплатно)
-```
-npx vercel          # первый раз — логин и создание проекта
-npx vercel --prod
-```
-В Vercel → Settings → Environment Variables добавить две переменные из `.env.example`, затем ещё раз `npx vercel --prod`.
+GitHub Pages показывает только демо: отправлять заявки он не умеет. Боевой сайт — на Vercel:
+1. vercel.com → войти через GitHub → **Add New → Project** → импортировать `vela-gifts`.
+2. Framework Preset: **Other**, остальное не трогать.
+3. **Environment Variables**: добавить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`.
+4. **Deploy**. Сайт получит адрес `https://vela-gifts-….vercel.app`; свой домен — Settings → Domains.
+
+Дальше каждый push в `main` обновляет и Vercel, и демо на GitHub Pages. На vercel.app демо-режим выключен — заявки уходят по-настоящему.
