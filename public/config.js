@@ -20,7 +20,7 @@ window.CONFIG = {
   pixelId: '',
 
   // Сколько дней действует подарок
-  giftDays: 14,
+  giftDays: 7,
 
   // Куда отправляется заявка (serverless-функция → Telegram)
   leadEndpoint: '/api/lead',
@@ -52,13 +52,13 @@ window.PRIZES = [
   },
   {
     id: 'first10', weight: 20,
-    ru: { big: '−10%', small: 'первый визит', full: 'Скидка 10% на лазер на первое посещение', list: '−10% на первый визит', note: 'Скидка действует только на первый визит.' },
-    uz: { big: '−10%', small: 'ilk tashrif', full: 'Birinchi tashrifda lazerga 10% chegirma', list: 'Ilk tashrifga −10%', note: 'Chegirma faqat birinchi tashrifda amal qiladi.' },
+    ru: { big: '−10%', small: 'на лазер', full: 'Скидка 10% на лазерную эпиляцию', list: '−10% на лазерную эпиляцию' },
+    uz: { big: '−10%', small: 'lazerga', full: 'Lazer epilyatsiyasiga 10% chegirma', list: 'Lazer epilyatsiyasiga −10%' },
   },
   {
     id: 'first5', weight: 32,
-    ru: { big: '−5%', small: 'первый визит', full: 'Скидка 5% на лазер на первое посещение', list: '−5% на первый визит', note: 'Скидка действует только на первый визит.' },
-    uz: { big: '−5%', small: 'ilk tashrif', full: 'Birinchi tashrifda lazerga 5% chegirma', list: 'Ilk tashrifga −5%', note: 'Chegirma faqat birinchi tashrifda amal qiladi.' },
+    ru: { big: '−5%', small: 'на лазер', full: 'Скидка 5% на лазерную эпиляцию', list: '−5% на лазерную эпиляцию' },
+    uz: { big: '−5%', small: 'lazerga', full: 'Lazer epilyatsiyasiga 5% chegirma', list: 'Lazer epilyatsiyasiga −5%' },
   },
   {
     id: 'retry', weight: 10, retry: true,
