@@ -327,6 +327,8 @@
     $('sheetTitle').textContent = freshWin ? t('resultTitle') : t('alreadyTitle');
     $('prizeText').textContent = full;
     $('donePrize').textContent = full;
+    const note = prize[lang].note || '';
+    ['prizeNote', 'donePrizeNote'].forEach((id) => { $(id).textContent = note; $(id).hidden = !note; });
     $('promoCode').textContent = state.code;
     $('validity').textContent = fill(t('validity'), { days: CONFIG.giftDays, date: giftUntil() });
 
@@ -385,6 +387,7 @@
       phone: '998' + local,
       prizeId: prize.id,
       prize: prize.ru.full,
+      note: prize.ru.note || '',
       code: state.code,
       lang,
       utm,
@@ -505,7 +508,14 @@
     inside.innerHTML = '';
     PRIZES.filter((p) => !p.retry).forEach((p) => {
       const li = document.createElement('li');
-      li.textContent = p[lang].list || p[lang].full;
+      const name = document.createElement('b');
+      name.textContent = p[lang].list || p[lang].full;
+      li.append(name);
+      if (p[lang].note) {
+        const note = document.createElement('span');
+        note.textContent = p[lang].note;
+        li.append(note);
+      }
       if (p.main) li.className = 'main';
       inside.append(li);
     });

@@ -31,6 +31,7 @@ export default async function handler(req, res) {
   if (!/^998\d{9}$/.test(phone)) return send(res, 400, { ok: false, error: 'phone' });
 
   const prize = String(body.prize || '').slice(0, 120);
+  const note = String(body.note || '').slice(0, 300);
   const code = String(body.code || '').slice(0, 20);
   const lang = body.lang === 'uz' ? 'UZ' : 'RU';
   const utm = body.utm && typeof body.utm === 'object' ? body.utm : {};
@@ -47,6 +48,7 @@ export default async function handler(req, res) {
     `👤 ${esc(name)}`,
     `📞 <a href="tel:+${phone}">${pretty}</a>`,
     `🎁 ${esc(prize)}`,
+    ...(note ? [`ℹ️ ${esc(note)}`] : []),
     `🔑 Промокод: <code>${esc(code)}</code>`,
     `🌐 Язык: ${lang}`,
     ...(utmLines.length ? ['', '📊 ' + utmLines.join('\n')] : []),
