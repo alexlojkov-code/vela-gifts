@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>VELA — колесо подарков</title>
-  <meta name="description" content="Крутите колесо и заберите подарок на лазерную эпиляцию в VELA Laser Studio, Ташкент.">
+  <title>VELA — подарочные коробки</title>
+  <meta name="description" content="Выберите подарочную коробку и заберите подарок на лазерную эпиляцию в VELA Laser Studio, Ташкент.">
   <meta name="theme-color" content="#4C0010">
-  <meta property="og:title" content="VELA — колесо подарков на лазерную эпиляцию">
-  <meta property="og:description" content="Каждый поворот — выигрышный. Одна попытка на человека.">
+  <meta property="og:title" content="VELA — подарки на лазерную эпиляцию">
+  <meta property="og:description" content="В каждой коробке — подарок. Одна попытка на человека.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -31,16 +31,15 @@
       <h1 data-i18n="title"></h1>
       <p class="sub" data-i18n="sub"></p>
 
-      <div class="wheel-wrap">
-        <div class="pointer" aria-hidden="true"></div>
-        <svg id="wheel" viewBox="-200 -200 400 400" role="img" aria-label="Колесо подарков"></svg>
-        <button type="button" class="hub" id="hub" aria-label="Крутить колесо">
-          <span>VELA</span>
-        </button>
-      </div>
+      <div class="boxes" id="boxes" role="group" aria-label="Подарочные коробки"></div>
 
-      <button type="button" id="spinBtn" class="btn btn-primary"></button>
-      <p class="hint" id="hint" data-i18n="hint"></p>
+      <p class="status" id="status" aria-live="polite"></p>
+      <button type="button" id="claimBtn" class="btn btn-primary" hidden></button>
+
+      <div class="inside">
+        <p class="inside-title" data-i18n="insideTitle"></p>
+        <ul class="inside-list" id="insideList"></ul>
+      </div>
     </section>
 
     <section class="steps">

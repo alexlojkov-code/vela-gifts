@@ -3,24 +3,28 @@
 
   const CONFIG = window.CONFIG;
   const PRIZES = window.PRIZES;
-  const STORE_KEY = 'vela_wheel_v1';
-  const SEG = 360 / PRIZES.length;
+  const STORE_KEY = 'vela_boxes_v1';
+  const BOX_COUNT = 6;
+  const BOX_STYLES = ['wine', 'cream', 'nude', 'cream', 'nude', 'wine'];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---------------- тексты ----------------
   const T = {
     ru: {
-      pageTitle: 'VELA — колесо подарков',
+      pageTitle: 'VELA — подарочные коробки',
       badge: 'Акция для новых клиентов',
-      title: 'Крутите колесо и заберите подарок на лазерную эпиляцию',
-      sub: 'Каждый сектор — выигрышный. Одна попытка на человека.',
-      spin: 'Крутить колесо',
-      spinning: 'Крутится…',
+      title: 'Выберите коробку и заберите подарок на лазерную эпиляцию',
+      sub: 'В каждой коробке — подарок. Одна попытка на человека.',
+      pick: 'Нажмите на любую коробку',
+      opening: 'Открываем…',
+      retryMsg: 'Почти! Выберите ещё одну коробку',
+      wonHint: 'Подарок действует {days} дней',
       claim: 'Забрать подарок',
       myGift: 'Мой подарок',
-      hint: 'Подарок действует {days} дней',
+      insideTitle: 'Что может быть внутри',
+      boxLabel: 'Коробка {n}',
       resultTitle: 'Поздравляем! Ваш подарок:',
-      alreadyTitle: 'Вы уже крутили колесо. Ваш подарок:',
+      alreadyTitle: 'Вы уже открыли коробку. Ваш подарок:',
       formLead: 'Оставьте номер — администратор закрепит подарок за вами и подберёт удобное время.',
       name: 'Ваше имя',
       phone: 'Телефон',
@@ -34,7 +38,7 @@
       errPhone: 'Введите номер в формате +998 XX XXX XX XX',
       errSend: 'Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите нам напрямую.',
       stepsTitle: 'Как это работает',
-      step1: 'Крутите колесо — приз есть в каждом секторе',
+      step1: 'Выбираете одну из шести коробок',
       step2: 'Оставляете имя и номер телефона',
       step3: 'Администратор перезвонит и запишет вас на процедуру с подарком',
       termsTitle: 'Условия акции',
@@ -47,20 +51,25 @@
       writeTg: 'Написать в Telegram',
       writeIg: 'Написать в Instagram',
       call: 'Позвонить',
-      tgText: 'Здравствуйте! Я выиграл(а) в колесе VELA: {prize}. Промокод {code}',
+      tgText: 'Здравствуйте! Мой подарок из коробки VELA: {prize}. Промокод {code}',
+      demoBar: 'Демо для согласования — заявки никуда не отправляются',
+      demoReset: 'Начать заново',
     },
     uz: {
-      pageTitle: 'VELA — sovg‘alar g‘ildiragi',
+      pageTitle: 'VELA — sovg‘a qutilari',
       badge: 'Yangi mijozlar uchun aksiya',
-      title: 'G‘ildirakni aylantiring — lazer epilyatsiyasiga sovg‘a oling',
-      sub: 'Har bir sektor — yutuqli. Har bir kishiga bitta urinish.',
-      spin: 'Aylantirish',
-      spinning: 'Aylanmoqda…',
+      title: 'Qutini tanlang va lazer epilyatsiyasiga sovg‘a oling',
+      sub: 'Har bir qutida — sovg‘a. Har bir kishiga bitta urinish.',
+      pick: 'Istalgan qutini bosing',
+      opening: 'Ochilmoqda…',
+      retryMsg: 'Oz qoldi! Yana bitta qutini tanlang',
+      wonHint: 'Sovg‘a {days} kun amal qiladi',
       claim: 'Sovg‘ani olish',
       myGift: 'Mening sovg‘am',
-      hint: 'Sovg‘a {days} kun amal qiladi',
+      insideTitle: 'Ichida nima bo‘lishi mumkin',
+      boxLabel: '{n}-quti',
       resultTitle: 'Tabriklaymiz! Sizning sovg‘angiz:',
-      alreadyTitle: 'Siz g‘ildirakni aylantirib bo‘lgansiz. Sovg‘angiz:',
+      alreadyTitle: 'Siz qutini ochib bo‘lgansiz. Sovg‘angiz:',
       formLead: 'Raqamingizni qoldiring — administrator sovg‘ani siz uchun band qiladi va qulay vaqtni tanlab beradi.',
       name: 'Ismingiz',
       phone: 'Telefon raqam',
@@ -74,7 +83,7 @@
       errPhone: 'Raqamni +998 XX XXX XX XX formatida kiriting',
       errSend: 'Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring yoki bizga to‘g‘ridan-to‘g‘ri yozing.',
       stepsTitle: 'Bu qanday ishlaydi',
-      step1: 'G‘ildirakni aylantirasiz — har bir sektorda sovg‘a bor',
+      step1: 'Oltita qutidan birini tanlaysiz',
       step2: 'Ismingiz va telefon raqamingizni qoldirasiz',
       step3: 'Administrator qo‘ng‘iroq qilib, sizni sovg‘a bilan muolajaga yozadi',
       termsTitle: 'Aksiya shartlari',
@@ -87,7 +96,9 @@
       writeTg: 'Telegramda yozish',
       writeIg: 'Instagramda yozish',
       call: 'Qo‘ng‘iroq qilish',
-      tgText: 'Assalomu alaykum! VELA g‘ildiragida yutdim: {prize}. Promokod {code}',
+      tgText: 'Assalomu alaykum! VELA qutisidan sovg‘am: {prize}. Promokod {code}',
+      demoBar: 'Kelishuv uchun demo — arizalar hech qayerga yuborilmaydi',
+      demoReset: 'Qaytadan boshlash',
     },
   };
 
@@ -105,11 +116,13 @@
   };
 
   // ---------------- состояние ----------------
-  let state = store.get(STORE_KEY) || null; // { prizeId, code, ts, submitted }
+  // state = { prizeId, code, ts, submitted, box, retryBox }
+  let state = store.get(STORE_KEY) || null;
   let lang = pickLang();
-  let rotation = 0;
-  let spinning = false;
-  let idleRaf = 0;
+  let busy = false;
+  let retryBox = null;     // индекс коробки с «ещё раз» (в текущей попытке)
+  let wiggleTimer = 0;
+  const opened = {};       // индекс коробки → id приза, чтобы перерисовать при смене языка
 
   // UTM-метки из рекламы (запоминаем на сессию)
   const utm = (() => {
@@ -147,169 +160,133 @@
   }
   const pixel = (...args) => { if (window.fbq) window.fbq(...args); };
 
-  // ---------------- рисуем колесо ----------------
-  const NS = 'http://www.w3.org/2000/svg';
-  const el = (tag, attrs, parent) => {
-    const n = document.createElementNS(NS, tag);
-    for (const k in attrs) n.setAttribute(k, attrs[k]);
-    if (parent) parent.appendChild(n);
-    return n;
-  };
-  const pt = (r, deg) => {
-    const a = (deg * Math.PI) / 180;
-    return [r * Math.sin(a), -r * Math.cos(a)];
-  };
+  // ---------------- коробки ----------------
+  const boxEls = [];
+  const BOW_SVG =
+    '<svg viewBox="0 0 60 36" aria-hidden="true">' +
+      '<path fill="currentColor" d="M27 27 L19 36 L24 36 L30 29 Z M33 27 L41 36 L36 36 L30 29 Z"/>' +
+      '<path fill="currentColor" fill-rule="evenodd" d="M30 27 C18 3 1 4 3 16 C5 27 20 29 30 27 Z M26 24 C18 13 9 11 9 16.5 C10 22 18 24.5 26 24 Z"/>' +
+      '<path fill="currentColor" fill-rule="evenodd" d="M30 27 C42 3 59 4 57 16 C55 27 40 29 30 27 Z M34 24 C42 13 51 11 51 16.5 C50 22 42 24.5 34 24 Z"/>' +
+      '<ellipse cx="30" cy="25.5" rx="5.5" ry="5" fill="currentColor"/>' +
+    '</svg>';
 
-  function drawWheel() {
-    const svg = $('wheel');
-    svg.innerHTML = '';
-    const R = 184;
-
-    const defs = el('defs', {}, svg);
-    const gold = el('linearGradient', { id: 'gold', x1: '0', y1: '0', x2: '1', y2: '1' }, defs);
-    el('stop', { offset: '0', 'stop-color': '#F3D9B8' }, gold);
-    el('stop', { offset: '1', 'stop-color': '#CF9F6A' }, gold);
-    const shade = el('radialGradient', { id: 'shade', cx: '0', cy: '0', r: '1', gradientUnits: 'userSpaceOnUse', gradientTransform: `scale(${R})` }, defs);
-    el('stop', { offset: '0.55', 'stop-color': '#000', 'stop-opacity': '0' }, shade);
-    el('stop', { offset: '1', 'stop-color': '#2B0A10', 'stop-opacity': '0.18' }, shade);
-
-    // обод
-    el('circle', { r: 199, fill: '#4C0010' }, svg);
-    el('circle', { r: 191, fill: 'none', stroke: '#DEB289', 'stroke-width': 1.5, opacity: 0.9 }, svg);
-
-    PRIZES.forEach((p, i) => {
-      const a0 = i * SEG;
-      const a1 = (i + 1) * SEG;
-      const [x0, y0] = pt(R, a0);
-      const [x1, y1] = pt(R, a1);
-      const dark = i % 2 === 0;
-      const fillColor = p.main ? 'url(#gold)' : dark ? '#5C111C' : '#FBF3EA';
-      el('path', { d: `M0 0 L${x0} ${y0} A${R} ${R} 0 0 1 ${x1} ${y1} Z`, fill: fillColor }, svg);
-    });
-    el('circle', { r: R, fill: 'url(#shade)' }, svg);
-
-    // разделители
-    PRIZES.forEach((_, i) => {
-      const [x, y] = pt(R, i * SEG);
-      el('line', { x1: 0, y1: 0, x2: x, y2: y, stroke: '#DEB289', 'stroke-width': 1.2, opacity: 0.7 }, svg);
-    });
-
-    // подписи
-    PRIZES.forEach((p, i) => {
-      const c = i * SEG + SEG / 2;
-      const dark = i % 2 === 0 && !p.main;
-      const color = dark ? '#F6EEE4' : '#4C0010';
-      const g = el('g', { transform: `rotate(${c - 90})` }, svg);
-      const L = p[lang];
-      const cx = 118;
-      const bigFs = 27;
-      const smallFs = 12.5;
-      const big = el('text', {
-        x: cx, y: -3, 'text-anchor': 'middle', fill: color,
-        'font-size': bigFs.toFixed(1), 'font-weight': 700,
-      }, g);
-      big.textContent = L.big;
-      const small = el('text', {
-        x: cx, y: 14, 'text-anchor': 'middle', fill: color,
-        'font-size': smallFs.toFixed(1), 'font-weight': 500, opacity: 0.9,
-        'letter-spacing': '0.02em',
-      }, g);
-      small.textContent = L.small;
-      fitText(big, 104, bigFs);
-      fitText(small, 100, smallFs);
-    });
-
-    // лампочки на ободе
-    for (let i = 0; i < 24; i++) {
-      const [x, y] = pt(195, i * 15 + 7.5);
-      el('circle', { cx: x, cy: y, r: 3.4, fill: '#FFF1D6', class: 'bulb' + (i % 2 ? ' alt' : '') }, svg);
+  function buildBoxes() {
+    const wrap = $('boxes');
+    wrap.innerHTML = '';
+    for (let i = 0; i < BOX_COUNT; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'box box--' + BOX_STYLES[i % BOX_STYLES.length];
+      b.style.setProperty('--d', (i * 0.37).toFixed(2) + 's');
+      b.innerHTML =
+        '<span class="box-inner">' +
+          '<span class="box-shadow"></span>' +
+          '<span class="box-glow"></span>' +
+          '<span class="box-card"><b></b><small></small></span>' +
+          '<span class="box-body"></span>' +
+          '<span class="box-lid"><span class="bow">' + BOW_SVG + '</span></span>' +
+        '</span>';
+      b.addEventListener('click', () => pick(i));
+      wrap.append(b);
+      boxEls.push(b);
     }
-    el('circle', { r: 50, fill: '#DEB289', opacity: 0.35 }, svg);
   }
 
-  // уменьшаем шрифт, если подпись не влезает в сектор
-  function fitText(node, maxLen, fs) {
-    let len = 0;
-    try { len = node.getComputedTextLength(); } catch { return; }
-    if (len > maxLen) node.setAttribute('font-size', (fs * maxLen / len).toFixed(1));
+  function setCard(i, prize) {
+    opened[i] = prize.id;
+    const card = boxEls[i].querySelector('.box-card');
+    card.querySelector('b').textContent = prize[lang].big;
+    card.querySelector('small').textContent = prize[lang].small;
   }
 
-  const setRotation = (deg) => {
-    rotation = deg;
-    $('wheel').style.transform = `rotate(${deg}deg)`;
-  };
-  const segAt = (deg) => Math.floor((((-deg) % 360) + 360) % 360 / SEG);
-  const restAngleFor = (i) => 360 - (i * SEG + SEG / 2);
-
-  // лёгкое покачивание до вращения — приглашает нажать
-  function startIdle() {
-    if (reduceMotion) return;
-    let last = performance.now();
-    const loop = (now) => {
-      setRotation(rotation + (now - last) * 0.006);
-      last = now;
-      idleRaf = requestAnimationFrame(loop);
-    };
-    idleRaf = requestAnimationFrame(loop);
-  }
-
-  function pickPrizeIndex() {
-    const total = PRIZES.reduce((s, p) => s + Math.max(0, p.weight), 0);
+  function pickPrize(excludeRetry) {
+    const pool = PRIZES.filter((p) => !(excludeRetry && p.retry));
+    const total = pool.reduce((s, p) => s + Math.max(0, p.weight), 0);
     let r = Math.random() * total;
-    for (let i = 0; i < PRIZES.length; i++) {
-      r -= Math.max(0, PRIZES[i].weight);
-      if (r < 0) return i;
+    for (const p of pool) {
+      r -= Math.max(0, p.weight);
+      if (r < 0) return p;
     }
-    return 0;
+    return pool[0];
   }
 
-  function tickPointer() {
-    const p = document.querySelector('.pointer');
-    p.classList.remove('tick');
-    void p.offsetWidth;
-    p.classList.add('tick');
+  function pick(i) {
+    if (busy || state || i === retryBox) return;
+    busy = true;
+    stopWiggle();
+    const box = boxEls[i];
+    boxEls.forEach((b) => { b.disabled = true; });
+    setStatus(t('opening'));
+
+    const prize = pickPrize(retryBox !== null);
+    setCard(i, prize);
+    box.classList.add('shake');
+    const shakeMs = reduceMotion ? 0 : 600;
+    setTimeout(() => {
+      box.classList.remove('shake');
+      box.classList.add('open');
+      if (navigator.vibrate) navigator.vibrate(30);
+    }, shakeMs);
+    setTimeout(() => (prize.retry ? afterRetry(i) : win(prize, i)), shakeMs + (reduceMotion ? 300 : 900));
   }
 
-  function spin() {
-    if (spinning) return;
-    if (state) { openSheet(); return; }
-    spinning = true;
-    cancelAnimationFrame(idleRaf);
-    renderButton();
-
-    const index = pickPrizeIndex();
-    const prize = PRIZES[index];
-    const jitter = (Math.random() - 0.5) * SEG * 0.6;
-    const from = rotation;
-    const base = from - (((from % 360) + 360) % 360);
-    const target = base + 360 * (reduceMotion ? 1 : 7) + restAngleFor(index) + jitter;
-    const duration = reduceMotion ? 1200 : 5600;
-    const start = performance.now();
-    let lastSeg = segAt(from);
-    let lastTick = 0;
-
-    const frame = (now) => {
-      const k = Math.min(1, (now - start) / duration);
-      const e = 1 - Math.pow(1 - k, 4);
-      setRotation(from + (target - from) * e);
-      const s = segAt(rotation);
-      if (s !== lastSeg && now - lastTick > 45) { tickPointer(); lastTick = now; }
-      lastSeg = s;
-      if (k < 1) requestAnimationFrame(frame);
-      else finish(prize);
-    };
-    requestAnimationFrame(frame);
+  function afterRetry(i) {
+    retryBox = i;
+    busy = false;
+    boxEls[i].classList.add('spent');
+    boxEls.forEach((b, j) => { b.disabled = j === i; });
+    setStatus(t('retryMsg'), true);
+    pixel('trackCustom', 'GiftBoxRetry');
+    startWiggle();
   }
 
-  function finish(prize) {
-    spinning = false;
-    state = { prizeId: prize.id, code: makeCode(), ts: Date.now(), submitted: false };
+  function win(prize, i) {
+    busy = false;
+    state = { prizeId: prize.id, code: makeCode(), ts: Date.now(), submitted: false, box: i, retryBox };
     store.set(STORE_KEY, state);
-    if (navigator.vibrate) navigator.vibrate(40);
-    pixel('trackCustom', 'WheelSpin', { prize: prize.id });
-    renderButton();
-    confetti();
-    setTimeout(() => openSheet(true), 650);
+    if (navigator.vibrate) navigator.vibrate([30, 60, 40]);
+    pixel('trackCustom', 'GiftBoxOpen', { prize: prize.id });
+    renderBoxesState();
+    renderClaim();
+    confetti(boxEls[i]);
+    setTimeout(() => openSheet(true), reduceMotion ? 200 : 700);
+  }
+
+  // восстановление после перезагрузки
+  function renderBoxesState() {
+    const wrap = $('boxes');
+    if (!state) return;
+    wrap.classList.add('chosen');
+    boxEls.forEach((b) => { b.disabled = true; });
+    if (Number.isInteger(state.retryBox) && boxEls[state.retryBox]) {
+      setCard(state.retryBox, PRIZES.find((p) => p.retry) || prizeById(state.prizeId));
+      boxEls[state.retryBox].classList.add('open', 'spent');
+    }
+    const i = Number.isInteger(state.box) && boxEls[state.box] ? state.box : 0;
+    setCard(i, prizeById(state.prizeId));
+    boxEls[i].classList.add('open');
+  }
+
+  // покачиваем случайную коробку, чтобы приглашала нажать
+  function startWiggle() {
+    if (reduceMotion) return;
+    stopWiggle();
+    wiggleTimer = setInterval(() => {
+      if (busy || state) return stopWiggle();
+      const free = boxEls.filter((_, j) => j !== retryBox);
+      const b = free[(Math.random() * free.length) | 0];
+      b.classList.remove('wiggle');
+      void b.offsetWidth;
+      b.classList.add('wiggle');
+      setTimeout(() => b.classList.remove('wiggle'), 750);
+    }, 1800);
+  }
+  function stopWiggle() { clearInterval(wiggleTimer); }
+
+  function setStatus(text, accent) {
+    const s = $('status');
+    s.textContent = text;
+    s.classList.toggle('accent', !!accent);
   }
 
   function makeCode() {
@@ -323,6 +300,7 @@
   // ---------------- окно ----------------
   let freshWin = false;
   function openSheet(fresh = false) {
+    if (!state) return;
     freshWin = fresh;
     renderSheet();
     $('sheet').hidden = false;
@@ -332,7 +310,7 @@
   function closeSheet() {
     $('sheet').hidden = true;
     document.body.style.overflow = '';
-    $('spinBtn').focus({ preventScroll: true });
+    $('claimBtn').focus({ preventScroll: true });
   }
 
   function giftUntil() {
@@ -396,6 +374,7 @@
     if (!name) return showError(t('errName'), nameEl);
     if (local.length !== 9) return showError(t('errPhone'), phoneEl);
     errEl.hidden = true;
+    document.querySelectorAll('.err-links').forEach((n) => n.remove());
 
     const btn = $('submitBtn');
     btn.disabled = true;
@@ -432,15 +411,14 @@
       state.submitted = true;
       store.set(STORE_KEY, state);
       renderSheet();
-      renderButton();
+      renderClaim();
     } catch (err) {
       console.error(err);
       showError(t('errSend'));
       renderSheet();
       $('claimView').hidden = false;
       $('doneView').hidden = true;
-      // показываем запасные контакты прямо под ошибкой
-      document.querySelectorAll('.err-links').forEach((n) => n.remove());
+      // запасные контакты прямо под ошибкой
       const links = $('contactLinks').cloneNode(true);
       links.removeAttribute('id');
       links.className = 'contact-links err-links';
@@ -459,17 +437,20 @@
   }
 
   // ---------------- конфетти ----------------
-  function confetti() {
+  function confetti(fromEl) {
     if (reduceMotion) return;
     const cv = $('confetti');
     const ctx = cv.getContext('2d');
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const r = fromEl ? fromEl.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
+    const ox = r.left + r.width / 2;
+    const oy = r.top + r.height * 0.3;
     const colors = ['#4C0010', '#7A1C2B', '#DEB289', '#C9965F', '#F6EEE4', '#F3D9B8'];
     const parts = Array.from({ length: 150 }, () => ({
-      x: innerWidth / 2 + (Math.random() - 0.5) * 80,
-      y: innerHeight * 0.42,
+      x: ox + (Math.random() - 0.5) * 40,
+      y: oy,
       vx: (Math.random() - 0.5) * 13,
       vy: -Math.random() * 13 - 4,
       w: 5 + Math.random() * 6, h: 8 + Math.random() * 8,
@@ -496,12 +477,16 @@
   }
 
   // ---------------- отрисовка текстов ----------------
-  function renderButton() {
-    const btn = $('spinBtn');
-    btn.textContent = spinning ? t('spinning') : !state ? t('spin') : state.submitted ? t('myGift') : t('claim');
-    btn.disabled = spinning;
-    $('hub').disabled = spinning || !!state;
-    btn.classList.toggle('pulse', !spinning && !(state && state.submitted));
+  function renderClaim() {
+    const btn = $('claimBtn');
+    btn.hidden = !state;
+    if (state) {
+      btn.textContent = state.submitted ? t('myGift') : t('claim');
+      btn.classList.toggle('pulse', !state.submitted);
+      setStatus(fill(t('wonHint'), { days: CONFIG.giftDays }));
+    } else {
+      setStatus(retryBox !== null ? t('retryMsg') : t('pick'), retryBox !== null);
+    }
   }
 
   function renderTexts() {
@@ -512,6 +497,18 @@
       if (typeof v === 'string') n.textContent = fill(v, { days: CONFIG.giftDays });
     });
     document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+
+    boxEls.forEach((b, i) => b.setAttribute('aria-label', fill(t('boxLabel'), { n: i + 1 })));
+    Object.keys(opened).forEach((i) => setCard(Number(i), prizeById(opened[i])));
+
+    const inside = $('insideList');
+    inside.innerHTML = '';
+    PRIZES.filter((p) => !p.retry).forEach((p) => {
+      const li = document.createElement('li');
+      li.textContent = p[lang].list || p[lang].full;
+      if (p.main) li.className = 'main';
+      inside.append(li);
+    });
 
     const ul = $('termsList');
     ul.innerHTML = '';
@@ -531,21 +528,23 @@
     if (CONFIG.telegram) fl.append(chip(`https://t.me/${CONFIG.telegram}`, 'Telegram'));
     if (CONFIG.phone) fl.append(chip(`tel:${CONFIG.phone.replace(/[^\d+]/g, '')}`, CONFIG.phone));
 
-    renderButton();
-    drawWheel();
+    const bar = document.querySelector('.demo-bar');
+    if (bar) {
+      bar.querySelector('span').textContent = t('demoBar');
+      bar.querySelector('button').textContent = t('demoReset');
+    }
+
+    renderClaim();
     if (!$('sheet').hidden) renderSheet();
   }
 
-  // ---------------- старт ----------------
   function renderDemoBar() {
     if (!CONFIG.demo) return;
     const bar = document.createElement('div');
     bar.className = 'demo-bar';
     const txt = document.createElement('span');
-    txt.textContent = 'Демо для согласования — заявки никуда не отправляются';
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'Крутить заново';
     btn.addEventListener('click', () => {
       try { localStorage.removeItem(STORE_KEY); } catch { /* ок */ }
       location.reload();
@@ -554,22 +553,18 @@
     document.body.prepend(bar);
   }
 
+  // ---------------- старт ----------------
   function init() {
     renderDemoBar();
     if (!CONFIG.demo) initPixel();
+    buildBoxes();
+
+    if (state && !prizeById(state.prizeId)) state = null;
+    if (state) renderBoxesState();
+    else startWiggle();
     renderTexts();
-    // после загрузки шрифтов перемеряем подписи на колесе
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWheel);
 
-    if (state && prizeById(state.prizeId)) {
-      setRotation(restAngleFor(PRIZES.findIndex((p) => p.id === state.prizeId)));
-    } else {
-      state = null;
-      startIdle();
-    }
-
-    $('spinBtn').addEventListener('click', spin);
-    $('hub').addEventListener('click', spin);
+    $('claimBtn').addEventListener('click', () => openSheet(false));
     $('sheetClose').addEventListener('click', closeSheet);
     $('sheet').addEventListener('click', (e) => { if (e.target === $('sheet')) closeSheet(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('sheet').hidden) closeSheet(); });

@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     .map((k) => `${k}: ${esc(String(utm[k]).slice(0, 120))}`);
 
   const text = [
-    '🎡 <b>Новая заявка — колесо подарков</b>',
+    '🎁 <b>Новая заявка — подарочные коробки</b>',
     '',
     `👤 ${esc(name)}`,
     `📞 <a href="tel:+${phone}">${pretty}</a>`,
