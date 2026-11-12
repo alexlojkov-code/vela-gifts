@@ -52,13 +52,13 @@ window.PRIZES = [
   },
   {
     id: 'first10', weight: 20,
-    ru: { big: '−10%', small: '1-е посещение', full: 'Скидка 10% на лазерную эпиляцию на первое посещение', list: '−10% на первое посещение' },
-    uz: { big: '−10%', small: '1-tashrif', full: 'Birinchi tashrifda lazer epilyatsiyasiga 10% chegirma', list: 'Birinchi tashrifga −10%' },
+    ru: { big: '−10%', small: 'на 1 посещение', full: 'Скидка 10% на лазерную эпиляцию на одно посещение', list: '−10% на одно посещение' },
+    uz: { big: '−10%', small: '1 tashrifga', full: 'Bir tashrif uchun lazer epilyatsiyasiga 10% chegirma', list: 'Bir tashrifga −10%' },
   },
   {
     id: 'first5', weight: 32,
-    ru: { big: '−5%', small: '1-е посещение', full: 'Скидка 5% на лазерную эпиляцию на первое посещение', list: '−5% на первое посещение' },
-    uz: { big: '−5%', small: '1-tashrif', full: 'Birinchi tashrifda lazer epilyatsiyasiga 5% chegirma', list: 'Birinchi tashrifga −5%' },
+    ru: { big: '−5%', small: 'на 1 посещение', full: 'Скидка 5% на лазерную эпиляцию на одно посещение', list: '−5% на одно посещение' },
+    uz: { big: '−5%', small: '1 tashrifga', full: 'Bir tashrif uchun lazer epilyatsiyasiga 5% chegirma', list: 'Bir tashrifga −5%' },
   },
   {
     id: 'retry', weight: 10, retry: true,
