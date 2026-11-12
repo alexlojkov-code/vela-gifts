@@ -21,6 +21,10 @@ window.CONFIG = {
 
   // Куда отправляется заявка (serverless-функция → Telegram)
   leadEndpoint: '/api/lead',
+
+  // Демо для согласования: заявки никуда не уходят, колесо можно крутить заново.
+  // Включается само на *.github.io или по ссылке с ?demo
+  demo: /\.github\.io$/.test(location.hostname) || new URLSearchParams(location.search).has('demo'),
 };
 
 // ------------------------------------------------------------

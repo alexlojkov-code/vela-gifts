@@ -414,19 +414,23 @@
     };
 
     try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 15000);
-      const res = await fetch(CONFIG.leadEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal,
-      });
-      clearTimeout(timer);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (CONFIG.demo) {
+        await new Promise((r) => setTimeout(r, 700)); // демо: ничего не отправляем
+      } else {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 15000);
+        const res = await fetch(CONFIG.leadEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal,
+        });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        pixel('track', 'Lead', { content_name: prize.id }, { eventID: state.code });
+      }
       state.submitted = true;
       store.set(STORE_KEY, state);
-      pixel('track', 'Lead', { content_name: prize.id }, { eventID: state.code });
       renderSheet();
       renderButton();
     } catch (err) {
@@ -533,8 +537,26 @@
   }
 
   // ---------------- старт ----------------
+  function renderDemoBar() {
+    if (!CONFIG.demo) return;
+    const bar = document.createElement('div');
+    bar.className = 'demo-bar';
+    const txt = document.createElement('span');
+    txt.textContent = 'Демо для согласования — заявки никуда не отправляются';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = 'Крутить заново';
+    btn.addEventListener('click', () => {
+      try { localStorage.removeItem(STORE_KEY); } catch { /* ок */ }
+      location.reload();
+    });
+    bar.append(txt, btn);
+    document.body.prepend(bar);
+  }
+
   function init() {
-    initPixel();
+    renderDemoBar();
+    if (!CONFIG.demo) initPixel();
     renderTexts();
     // после загрузки шрифтов перемеряем подписи на колесе
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWheel);
