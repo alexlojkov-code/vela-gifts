@@ -58,6 +58,11 @@ export default async function handler(req, res) {
   const chats = String(process.env.TELEGRAM_CHAT_ID || '').split(',').map((s) => s.trim()).filter(Boolean);
 
   if (!token || !chats.length) {
+    // на Vercel без бота не делаем вид, что заявка принята — иначе она потеряется
+    if (process.env.VERCEL) {
+      console.error('[lead] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID не заданы в Vercel');
+      return send(res, 500, { ok: false, error: 'not_configured' });
+    }
     // локальный режим без бота — просто печатаем заявку в консоль
     console.log('\n[lead] TELEGRAM_* не заданы, заявка не отправлена в Telegram:\n' + text.replace(/<[^>]+>/g, '') + '\n');
     return send(res, 200, { ok: true, dev: true });
