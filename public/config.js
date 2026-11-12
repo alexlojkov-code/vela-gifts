@@ -9,9 +9,12 @@ window.CONFIG = {
 
   // Контакты (пустые поля просто не показываются на странице)
   instagram: 'velastudio.uz',     // без @
-  telegram: '',                   // username админа/бота без @, например 'vela_admin'
-  phone: '',                      // '+998 90 123 45 67'
-  address: { ru: '', uz: '' },    // 'ул. ..., ориентир ...'
+  telegram: 'vela_studio',        // аккаунт студии без @ — кнопка «Написать в Telegram»
+  phone: '+998 77 311 12 24',
+  address: { ru: 'Ташкент, Амир Темур, 1', uz: 'Toshkent, Amir Temur, 1' },
+  hours: { ru: 'Ежедневно с 9:00 до 20:00', uz: 'Har kuni 9:00 dan 20:00 gacha' },
+  // Точка на карте (из ссылки Google Maps) — для кнопок маршрута
+  map: { lat: 41.331289, lng: 69.28441 },
 
   // Meta Pixel ID из Events Manager (пусто = пиксель выключен)
   pixelId: '',

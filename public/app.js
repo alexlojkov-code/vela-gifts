@@ -32,7 +32,7 @@
       sending: 'Отправляем…',
       consent: 'Нажимая кнопку, вы соглашаетесь, чтобы студия связалась с вами по этому номеру.',
       successTitle: 'Подарок ваш!',
-      successText: 'Мы позвоним в ближайшее время (в рабочие часы). Назовите администратору промокод:',
+      successText: 'Администратор позвонит вам в рабочее время — {hours}. Назовите ему промокод:',
       validity: 'Действует {days} дней — до {date}',
       errName: 'Введите имя',
       errPhone: 'Введите номер в формате +998 XX XXX XX XX',
@@ -52,6 +52,12 @@
       writeIg: 'Написать в Instagram',
       call: 'Позвонить',
       tgText: 'Здравствуйте! Мой подарок из коробки VELA: {prize}. Промокод {code}',
+      contactsTitle: 'Как нас найти',
+      addressLabel: 'Адрес',
+      hoursLabel: 'Часы работы',
+      phoneLabel: 'Телефон',
+      routeGoogle: 'Маршрут в Google Maps',
+      routeYandex: 'Яндекс Карты',
       demoBar: 'Демо для согласования — заявки никуда не отправляются',
       demoReset: 'Начать заново',
     },
@@ -77,7 +83,7 @@
       sending: 'Yuborilmoqda…',
       consent: 'Tugmani bosib, studiya siz bilan ushbu raqam orqali bog‘lanishiga rozilik bildirasiz.',
       successTitle: 'Sovg‘a sizniki!',
-      successText: 'Tez orada (ish vaqtida) qo‘ng‘iroq qilamiz. Administratorga promokodni ayting:',
+      successText: 'Administrator ish vaqtida qo‘ng‘iroq qiladi — {hours}. Unga promokodni ayting:',
       validity: '{days} kun amal qiladi — {date} gacha',
       errName: 'Ismingizni kiriting',
       errPhone: 'Raqamni +998 XX XXX XX XX formatida kiriting',
@@ -97,6 +103,12 @@
       writeIg: 'Instagramda yozish',
       call: 'Qo‘ng‘iroq qilish',
       tgText: 'Assalomu alaykum! VELA qutisidan sovg‘am: {prize}. Promokod {code}',
+      contactsTitle: 'Bizni qanday topish mumkin',
+      addressLabel: 'Manzil',
+      hoursLabel: 'Ish vaqti',
+      phoneLabel: 'Telefon',
+      routeGoogle: 'Google Maps’da yo‘nalish',
+      routeYandex: 'Yandex Xaritalar',
       demoBar: 'Kelishuv uchun demo — arizalar hech qayerga yuborilmaydi',
       demoReset: 'Qaytadan boshlash',
     },
@@ -492,12 +504,17 @@
     }
   }
 
+  function textVars() {
+    const h = (CONFIG.hours && CONFIG.hours[lang]) || '';
+    return { days: CONFIG.giftDays, hours: h.charAt(0).toLowerCase() + h.slice(1) };
+  }
+
   function renderTexts() {
     document.documentElement.lang = lang === 'uz' ? 'uz' : 'ru';
     document.title = t('pageTitle');
     document.querySelectorAll('[data-i18n]').forEach((n) => {
       const v = T[lang][n.dataset.i18n];
-      if (typeof v === 'string') n.textContent = fill(v, { days: CONFIG.giftDays });
+      if (typeof v === 'string') n.textContent = fill(v, textVars());
     });
     document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
 
@@ -529,14 +546,7 @@
     });
 
     $('footCity').textContent = `${CONFIG.studioFull} · ${CONFIG.city[lang]}`;
-    const addr = CONFIG.address && CONFIG.address[lang];
-    $('footAddress').hidden = !addr;
-    $('footAddress').textContent = addr || '';
-    const fl = $('footLinks');
-    fl.innerHTML = '';
-    if (CONFIG.instagram) fl.append(chip(`https://instagram.com/${CONFIG.instagram}`, '@' + CONFIG.instagram));
-    if (CONFIG.telegram) fl.append(chip(`https://t.me/${CONFIG.telegram}`, 'Telegram'));
-    if (CONFIG.phone) fl.append(chip(`tel:${CONFIG.phone.replace(/[^\d+]/g, '')}`, CONFIG.phone));
+    renderContacts();
 
     const bar = document.querySelector('.demo-bar');
     if (bar) {
@@ -546,6 +556,29 @@
 
     renderClaim();
     if (!$('sheet').hidden) renderSheet();
+  }
+
+  function renderContacts() {
+    const addr = (CONFIG.address && CONFIG.address[lang]) || '';
+    const hours = (CONFIG.hours && CONFIG.hours[lang]) || '';
+    $('cAddress').textContent = addr;
+    $('cAddress').closest('li').hidden = !addr;
+    $('cHours').textContent = hours;
+    $('cHours').closest('li').hidden = !hours;
+    const tel = $('cPhone');
+    tel.textContent = CONFIG.phone || '';
+    tel.href = CONFIG.phone ? 'tel:' + CONFIG.phone.replace(/[^\d+]/g, '') : '#';
+    tel.closest('li').hidden = !CONFIG.phone;
+
+    const links = $('cLinks');
+    links.innerHTML = '';
+    if (CONFIG.map) {
+      const { lat, lng } = CONFIG.map;
+      links.append(chip(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, t('routeGoogle'), true));
+      links.append(chip(`https://yandex.uz/maps/?pt=${lng},${lat}&z=17&l=map`, t('routeYandex')));
+    }
+    if (CONFIG.telegram) links.append(chip(`https://t.me/${CONFIG.telegram}`, 'Telegram'));
+    if (CONFIG.instagram) links.append(chip(`https://instagram.com/${CONFIG.instagram}`, 'Instagram'));
   }
 
   function renderDemoBar() {
