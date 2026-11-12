@@ -18,7 +18,7 @@
       pick: 'Нажмите на любую коробку',
       opening: 'Открываем…',
       retryMsg: 'Почти! Выберите ещё одну коробку',
-      wonHint: 'Подарок действует {days} дней',
+      wonHint: 'Запишитесь в течение {days} дней, чтобы получить подарок',
       claim: 'Забрать подарок',
       myGift: 'Мой подарок',
       insideTitle: 'Что может быть внутри',
@@ -36,7 +36,7 @@
       privacyTitle: 'Политика конфиденциальности',
       successTitle: 'Подарок ваш!',
       successText: 'Администратор скоро свяжется с вами. Назовите ему промокод:',
-      validity: 'Действует {days} дней — до {date}',
+      validity: 'Записаться нужно в течение {days} дней — до {date}',
       errName: 'Введите имя',
       errPhone: 'Введите номер в формате +998 XX XXX XX XX',
       errSend: 'Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите нам напрямую.',
@@ -47,7 +47,7 @@
       termsTitle: 'Условия акции',
       terms: [
         'Одна попытка на один номер телефона.',
-        'Подарок действует {days} дней с момента получения.',
+        'Чтобы получить подарок, нужно записаться в течение {days} дней с момента его получения.',
         'Подарок не суммируется с другими акциями и не обменивается на деньги.',
         'Акция для клиентов старше 18 лет.',
       ],
@@ -72,7 +72,7 @@
       pick: 'Istalgan qutini bosing',
       opening: 'Ochilmoqda…',
       retryMsg: 'Oz qoldi! Yana bitta qutini tanlang',
-      wonHint: 'Sovg‘a {days} kun amal qiladi',
+      wonHint: 'Sovg‘ani olish uchun {days} kun ichida yoziling',
       claim: 'Sovg‘ani olish',
       myGift: 'Mening sovg‘am',
       insideTitle: 'Ichida nima bo‘lishi mumkin',
@@ -90,7 +90,7 @@
       privacyTitle: 'Maxfiylik siyosati',
       successTitle: 'Sovg‘a sizniki!',
       successText: 'Administrator tez orada siz bilan bog‘lanadi. Unga promokodni ayting:',
-      validity: '{days} kun amal qiladi — {date} gacha',
+      validity: '{days} kun ichida yozilish kerak — {date}gacha',
       errName: 'Ismingizni kiriting',
       errPhone: 'Raqamni +998 XX XXX XX XX formatida kiriting',
       errSend: 'Yuborib bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring yoki bizga to‘g‘ridan-to‘g‘ri yozing.',
@@ -101,7 +101,7 @@
       termsTitle: 'Aksiya shartlari',
       terms: [
         'Bitta telefon raqamiga bitta urinish.',
-        'Sovg‘a olingan kundan boshlab {days} kun amal qiladi.',
+        'Sovg‘ani olish uchun u olingan kundan boshlab {days} kun ichida yozilish kerak.',
         'Sovg‘a boshqa aksiyalar bilan qo‘shilmaydi va pulga almashtirilmaydi.',
         'Aksiya 18 yoshdan katta mijozlar uchun.',
       ],
@@ -333,7 +333,12 @@
 
   function giftUntil() {
     const d = new Date(state.ts + CONFIG.giftDays * 864e5);
-    return d.toLocaleDateString(lang === 'uz' ? 'uz-Latn-UZ' : 'ru-RU', { day: 'numeric', month: 'long' });
+    if (lang === 'uz') {
+      // браузеры часто не знают узбекских месяцев и пишут «M11» — задаём сами
+      const m = ['yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avgust', 'sentabr', 'oktabr', 'noyabr', 'dekabr'];
+      return d.getDate() + '-' + m[d.getMonth()];
+    }
+    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
   }
 
   function renderSheet() {

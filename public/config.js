@@ -62,12 +62,12 @@ window.PRIZES = [
   },
   {
     id: 'cash30', weight: 23,
-    ru: { big: '30 000', small: 'сум кешбэк', full: '30 000 сум кешбэк на лазер', list: 'Кешбэк 30 000 сум' },
-    uz: { big: '30 000', small: 'so‘m keshbek', full: 'Lazerga 30 000 so‘m keshbek', list: 'Keshbek 30 000 so‘m' },
+    ru: { big: '30 000', small: 'сум кешбэк', full: '30 000 сум кешбэк на лазер', list: 'Кешбэк 30 000 сум', note: 'Кешбэк можно потратить сразу или на любом из следующих посещений.' },
+    uz: { big: '30 000', small: 'so‘m keshbek', full: 'Lazerga 30 000 so‘m keshbek', list: 'Keshbek 30 000 so‘m', note: 'Keshbekni darhol yoki keyingi istalgan tashrifda ishlatish mumkin.' },
   },
   {
     id: 'cash50', weight: 10,
-    ru: { big: '50 000', small: 'сум кешбэк', full: '50 000 сум кешбэк на лазер', list: 'Кешбэк 50 000 сум' },
-    uz: { big: '50 000', small: 'so‘m keshbek', full: 'Lazerga 50 000 so‘m keshbek', list: 'Keshbek 50 000 so‘m' },
+    ru: { big: '50 000', small: 'сум кешбэк', full: '50 000 сум кешбэк на лазер', list: 'Кешбэк 50 000 сум', note: 'Кешбэк можно потратить сразу или на любом из следующих посещений.' },
+    uz: { big: '50 000', small: 'so‘m keshbek', full: 'Lazerga 50 000 so‘m keshbek', list: 'Keshbek 50 000 so‘m', note: 'Keshbekni darhol yoki keyingi istalgan tashrifda ishlatish mumkin.' },
   },
 ];
