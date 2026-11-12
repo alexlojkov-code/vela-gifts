@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>VELA — колесо подарков</title>
+  <meta name="description" content="Крутите колесо и заберите подарок на лазерную эпиляцию в VELA Laser Studio, Ташкент.">
+  <meta name="theme-color" content="#4C0010">
+  <meta property="og:title" content="VELA — колесо подарков на лазерную эпиляцию">
+  <meta property="og:description" content="Каждый поворот — выигрышный. Одна попытка на человека.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="logo" aria-label="VELA Laser Studio">
+      <span class="logo-mark">VELA</span>
+      <span class="logo-sub">laser studio</span>
+    </div>
+    <div class="lang" role="group" aria-label="Язык">
+      <button type="button" data-lang="ru">RU</button>
+      <button type="button" data-lang="uz">UZ</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="badge" data-i18n="badge"></span>
+      <h1 data-i18n="title"></h1>
+      <p class="sub" data-i18n="sub"></p>
+
+      <div class="wheel-wrap">
+        <div class="pointer" aria-hidden="true"></div>
+        <svg id="wheel" viewBox="-200 -200 400 400" role="img" aria-label="Колесо подарков"></svg>
+        <button type="button" class="hub" id="hub" aria-label="Крутить колесо">
+          <span>VELA</span>
+        </button>
+      </div>
+
+      <button type="button" id="spinBtn" class="btn btn-primary"></button>
+      <p class="hint" id="hint" data-i18n="hint"></p>
+    </section>
+
+    <section class="steps">
+      <h2 data-i18n="stepsTitle"></h2>
+      <ol>
+        <li><span class="num">1</span><span data-i18n="step1"></span></li>
+        <li><span class="num">2</span><span data-i18n="step2"></span></li>
+        <li><span class="num">3</span><span data-i18n="step3"></span></li>
+      </ol>
+    </section>
+
+    <section class="terms">
+      <h2 data-i18n="termsTitle"></h2>
+      <ul id="termsList"></ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-logo">VELA</div>
+    <p id="footCity"></p>
+    <p id="footAddress" hidden></p>
+    <div class="foot-links" id="footLinks"></div>
+  </footer>
+
+  <!-- Окно с подарком и формой -->
+  <div class="sheet-backdrop" id="sheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <button type="button" class="sheet-close" id="sheetClose" aria-label="Закрыть">×</button>
+
+      <div id="claimView">
+        <p class="eyebrow" id="sheetTitle" data-i18n="resultTitle"></p>
+        <div class="prize" id="prizeText" aria-live="polite"></div>
+        <p class="sheet-lead" data-i18n="formLead"></p>
+
+        <form id="leadForm" novalidate>
+          <label class="field">
+            <span data-i18n="name"></span>
+            <input type="text" name="name" id="nameInput" autocomplete="given-name" maxlength="60" required>
+          </label>
+          <label class="field">
+            <span data-i18n="phone"></span>
+            <input type="tel" name="phone" id="phoneInput" inputmode="tel" autocomplete="tel" value="+998 " required>
+          </label>
+          <!-- ловушка для ботов -->
+          <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+          <p class="error" id="formError" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn" data-i18n="submit"></button>
+          <p class="consent" data-i18n="consent"></p>
+        </form>
+      </div>
+
+      <div id="doneView" hidden>
+        <div class="done-icon" aria-hidden="true">✓</div>
+        <p class="eyebrow" data-i18n="successTitle"></p>
+        <div class="prize" id="donePrize"></div>
+        <p class="sheet-lead" data-i18n="successText"></p>
+        <div class="code" id="promoCode"></div>
+        <p class="validity" id="validity"></p>
+        <div class="contact-links" id="contactLinks"></div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
