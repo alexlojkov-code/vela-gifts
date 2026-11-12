@@ -1,4 +1,4 @@
-// Приём заявки с колеса и отправка в Telegram.
+// Приём заявки с лендинга и отправка в Telegram.
 // Работает как Vercel Serverless Function (POST /api/lead) и в локальном server.mjs.
 //
 // Переменные окружения:

@@ -5,7 +5,7 @@
 ## Что где менять
 Всё в `public/config.js`:
 - `telegram`, `phone`, `address` — контакты (пустые не показываются);
-- `pixelId` — Meta Pixel (события `PageView`, `WheelSpin`, `Lead`);
+- `pixelId` — Meta Pixel (события `PageView`, `GiftBoxOpen`, `GiftBoxRetry`, `Lead`);
 - `giftDays` — срок действия подарка;
 - `PRIZES` — призы и шансы (`weight`, в процентах); `retry: true` — «Попробуйте ещё раз».
 
