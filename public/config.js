@@ -42,8 +42,8 @@ window.CONFIG = {
 window.PRIZES = [
   {
     id: 'small_zone', weight: 5, main: true,
-    ru: { big: 'Подарок', small: 'малая зона', full: 'Малая зона в подарок', list: 'Малая зона в подарок', note: 'От 3 зон — зона с наименьшей стоимостью в подарок на первое посещение.' },
-    uz: { big: 'Sovg‘a', small: 'kichik zona', full: 'Kichik zona sovg‘a', list: 'Kichik zona sovg‘a', note: '3 zonadan boshlab — birinchi tashrifda eng arzon zona sovg‘a.' },
+    ru: { big: 'Подарок', small: 'малая зона', full: 'Малая зона в подарок', list: 'Малая зона в подарок', note: 'От 3 зон — зона с наименьшей стоимостью в подарок на одно посещение.' },
+    uz: { big: 'Sovg‘a', small: 'kichik zona', full: 'Kichik zona sovg‘a', list: 'Kichik zona sovg‘a', note: '3 zonadan boshlab — bir tashrif uchun eng arzon zona sovg‘a.' },
   },
   {
     id: 'first10', weight: 20,
