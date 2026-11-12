@@ -12,7 +12,7 @@
   const T = {
     ru: {
       pageTitle: 'VELA — подарочные коробки',
-      badge: 'Акция для новых клиентов',
+      badge: 'Акция для всех клиентов',
       title: 'Выберите коробку и заберите подарок на лазерную эпиляцию',
       sub: 'В каждой коробке — подарок. Одна попытка на человека.',
       pick: 'Нажмите на любую коробку',
@@ -63,7 +63,7 @@
     },
     uz: {
       pageTitle: 'VELA — sovg‘a qutilari',
-      badge: 'Yangi mijozlar uchun aksiya',
+      badge: 'Barcha mijozlar uchun aksiya',
       title: 'Qutini tanlang va lazer epilyatsiyasiga sovg‘a oling',
       sub: 'Har bir qutida — sovg‘a. Har bir kishiga bitta urinish.',
       pick: 'Istalgan qutini bosing',
