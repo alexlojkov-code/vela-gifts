@@ -17,7 +17,7 @@ window.CONFIG = {
   map: { lat: 41.331289, lng: 69.28441 },
 
   // Meta Pixel ID из Events Manager (пусто = пиксель выключен)
-  pixelId: '',
+  pixelId: '4570347679888300',
 
   // Сколько дней действует подарок
   giftDays: 7,
